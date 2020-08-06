@@ -1,0 +1,124 @@
+:root {
+  --color-bg: #f9f9f9;
+  --color-btn: #1890ff;
+  --color-white: #ffffff;
+  --color-border-input: #eaeaea;
+  --color-black: #222222;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  background: var(--color-bg);
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+.wrapper {
+  max-width: 1240px;
+  margin: 3rem auto 0 auto;
+  padding: 0 6%;
+}
+/*Form input of tasks*/
+.form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 45px;
+  margin: 0 0 2.5rem 0;
+}
+.form div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.form div:first-child {
+  padding: 0 1rem 0 0;
+}
+.form .input-task {
+  width: 100%;
+  height: 80%;
+  border: 1px solid var(--color-border-input);
+  padding: 10px;
+  outline: none;
+}
+.form .input-task::placeholder {
+  color: #cccccc;
+}
+.form div:last-child {
+  width: 40%;
+  justify-content: center;
+}
+.btn-send {
+  width: 100%;
+  height: 80%;
+  background: var(--color-btn);
+  border: 1px solid var(--color-btn);
+  color: var(--color-white);
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s ease all;
+}
+.btn-send:active {
+  transform: scale(0.9);
+}
+.btn-send:hover {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+/*Wrapper Task*/
+.wrapper-task {
+  border: 1px solid var(--color-border-input);
+  height: auto;
+}
+.wrapper-task > h3 {
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  margin: 0;
+  border-bottom: 1px solid var(--color-border-input);
+}
+.print-task {
+  padding: 2rem 1rem;
+}
+.print-task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0.8rem;
+  border-bottom: 1px solid var(--color-border-input);
+}
+.print-task-item span {
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+.print-task-item span input[type="checkbox"] {
+  margin-right: 6px;
+}
+.print-task-item i {
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--color-white);
+  color: red;
+  transition: 0.3s ease all;
+}
+.print-task-item i:hover {
+  box-shadow: 0 0 6px rgba(53, 53, 53, 0.2);
+}
