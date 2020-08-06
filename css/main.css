@@ -122,3 +122,19 @@ ul {
 .print-task-item i:hover {
   box-shadow: 0 0 6px rgba(53, 53, 53, 0.2);
 }
+
+/*Responsive desing Desktop first*/
+@media screen and (max-width: 420px) {
+  .form {
+    flex-direction: column;
+    height: auto;
+  }
+  .form div:first-child {
+    padding: 0;
+  }
+  .form div:last-child {
+    height: 45px;
+    margin: 1rem 0 0 0;
+    width: 100%;
+  }
+}
