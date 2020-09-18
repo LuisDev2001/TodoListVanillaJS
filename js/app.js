@@ -25,6 +25,8 @@ function load() {
       element.addEventListener("click", (event) => {
         event.preventDefault();
         console.log("Click Eliminar");
+        const itemLiskTask = document.querySelector(".print-task-item");
+        $containerTask.removeChild(itemLiskTask);
       });
     });
   }
