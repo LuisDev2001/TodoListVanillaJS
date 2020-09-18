@@ -1,7 +1,6 @@
 function load() {
   const $form = document.getElementById("js_form-task");
   const $containerTask = document.getElementById("js_container-task");
-
   function templateTask(taskValue, $container) {
     return ($container.innerHTML += `
       <li class="print-task-item">
@@ -43,6 +42,8 @@ function load() {
     event.preventDefault();
     const data = new FormData($form);
     const inputTaskValue = data.get("text_Task");
+    document.getElementById("input-task").value = "";
+
     templateTask(inputTaskValue, $containerTask);
 
     const $btnDelete = document.querySelectorAll("#js_delete");
@@ -51,7 +52,8 @@ function load() {
     const $editButton = document.querySelectorAll("#js_edit");
     eventEditTask($editButton);
 
-    document.getElementById("input-task").value = "";
+    const $messageEmptyTask = document.getElementById("js_message-empty-task");
+    $messageEmptyTask.classList.remove("active");
   });
 }
 

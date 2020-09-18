@@ -131,7 +131,36 @@ ul {
   align-items: center;
   justify-content: space-between;
 }
+/*Message task empty*/
+.message-task {
+  text-align: center;
+  padding: 10px;
+  background: #f7f7f7;
+  border: 2px solid #f7f7f7;
+  display: none;
+}
+.message-task-icon {
+  color: #cccccc;
+  font-size: 55px;
+  margin-bottom: 6px;
+}
+.message-task-text {
+  font-weight: bold;
+  font-size: 16px;
+}
+.message-task.active {
+  display: block;
+}
 /*Responsive desing Desktop first*/
+@media screen and (max-width: 768px) {
+  .message-task-text {
+    font-size: 14px;
+  }
+  .message-task-icon {
+    font-size: 40px;
+  }
+}
+
 @media screen and (max-width: 420px) {
   .form {
     flex-direction: column;
