@@ -12,45 +12,40 @@
   </head>
   <body>
     <section class="wrapper">
-      <form class="form">
+      <form class="form" id="js_form-task">
         <div>
           <input
             type="text"
             class="input-task"
+            id="input-task"
+            name="text_Task"
             placeholder="Put your task..."
           />
         </div>
         <div>
-          <button type="submit" class="btn-send">
-            <i class="fas fa-plus"></i>Add
+          <button type="submit" id="js_btn-send" class="btn-send">
+            <i class="fas fa-plus"></i> Add
           </button>
         </div>
       </form>
       <section class="wrapper-task">
         <h3>Todo List</h3>
         <div class="print-task">
-          <ul class="print-task-list">
-            <li class="print-task-item">
+          <ul class="print-task-list" id="js_container-task">
+            <!-- <li class="print-task-item">
               <span>
                 <input type="checkbox" />
                 Test task of this application.
               </span>
-              <i class="far fa-trash-alt"></i>
-            </li>
-            <li class="print-task-item">
-              <span>
-                <input type="checkbox" />
-                Test task of this application.
-              </span>
-              <i class="far fa-trash-alt"></i>
-            </li>
-            <li class="print-task-item">
-              <span>
-                <input type="checkbox" />
-                Test task of this application.
-              </span>
-              <i class="far fa-trash-alt"></i>
-            </li>
+              <section class="buttons-actions">
+                <div id="js_delete">
+                  <i class="far fa-trash-alt"></i>
+                </div>
+                <div id="js_edit">
+                  <i class="fas fa-pencil-alt"></i>
+                </div>
+              </section>
+            </li> -->
           </ul>
         </div>
       </section>

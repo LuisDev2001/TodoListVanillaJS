@@ -119,10 +119,18 @@ ul {
   color: red;
   transition: 0.3s ease all;
 }
+#js_edit i {
+  color: #008000;
+}
 .print-task-item i:hover {
   box-shadow: 0 0 6px rgba(53, 53, 53, 0.2);
 }
-
+.buttons-actions {
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 /*Responsive desing Desktop first*/
 @media screen and (max-width: 420px) {
   .form {
