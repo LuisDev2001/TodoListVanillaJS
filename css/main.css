@@ -107,7 +107,7 @@ ul {
 .print-task-item span input[type="checkbox"] {
   margin-right: 6px;
 }
-.print-task-item i {
+.buttons-actions div {
   border-radius: 10px;
   cursor: pointer;
   display: flex;
@@ -119,10 +119,7 @@ ul {
   color: red;
   transition: 0.3s ease all;
 }
-#js_edit i {
-  color: #008000;
-}
-.print-task-item i:hover {
+.buttons-actions div:hover {
   box-shadow: 0 0 6px rgba(53, 53, 53, 0.2);
 }
 .buttons-actions {
@@ -150,6 +147,17 @@ ul {
 }
 .message-task.active {
   display: block;
+}
+#js_delete::before,
+#js_edit::before {
+  font-family: FontAwesome;
+}
+#js_delete::before {
+  content: "\f2ed";
+}
+#js_edit::before {
+  content: "\f044";
+  color: #008000;
 }
 /*Responsive desing Desktop first*/
 @media screen and (max-width: 768px) {
