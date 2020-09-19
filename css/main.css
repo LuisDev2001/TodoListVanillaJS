@@ -4,6 +4,7 @@
   --color-white: #ffffff;
   --color-border-input: #eaeaea;
   --color-black: #222222;
+  --color-btn-update: #3da545;
 }
 
 * {
@@ -61,7 +62,8 @@ ul {
   width: 40%;
   justify-content: center;
 }
-.btn-send {
+.btn-send,
+.btn-update {
   width: 100%;
   height: 80%;
   background: var(--color-btn);
@@ -71,10 +73,16 @@ ul {
   outline: none;
   transition: 0.3s ease all;
 }
-.btn-send:active {
+.btn-update {
+  background: var(--color-btn-update);
+  border-color: var(--color-btn-update);
+}
+.btn-send:active,
+.btn-update:active {
   transform: scale(0.9);
 }
-.btn-send:hover {
+.btn-send:hover,
+.btn-update:hover {
   background: var(--color-white);
   color: var(--color-black);
 }
@@ -98,6 +106,10 @@ ul {
   align-items: center;
   padding: 10px 0.8rem;
   border-bottom: 1px solid var(--color-border-input);
+  transition: 0.4s ease box-shadow;
+}
+.print-task-item.active {
+  box-shadow: 0 0 6px rgba(53, 53, 53, 0.5);
 }
 .print-task-item span {
   display: inline-flex;
