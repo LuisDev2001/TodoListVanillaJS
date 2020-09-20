@@ -8,11 +8,13 @@ function load() {
       <li class="print-task-item">
         <span>
           <input type="checkbox" />
-          ${taskValue}
+          <span class="task">${taskValue}</span>
+          <input type="text" id="js_input-edit" />
         </span>
         <section class="buttons-actions">
           <div id="js_delete"></div>
           <div id="js_edit"></div>
+          <div id="js_update" style="display: none;"></div>
         </section>
       </li>
     `);
@@ -28,12 +30,23 @@ function load() {
   function editTask(event) {
     const btnContent = event.target.parentNode;
     const item = btnContent.parentNode;
-    const text = item.querySelector("span").textContent.trim();
-    $btnSubmit.classList.remove("btn-send");
-    $btnSubmit.classList.add("btn-update");
-    $btnSubmit.innerHTML = `<i class="fas fa-sync-alt"></i> Update`;
-    item.classList.add("active");
-    document.getElementById("input-task").value = text;
+    let text = item.querySelector(".task").textContent.trim();
+    const $btnEdit = document.querySelector("#js_edit");
+    const $btnUpdate = document.querySelector("#js_update");
+    const editInput = document.querySelector("#js_input-edit");
+    $btnEdit.style.display = "none";
+    $btnUpdate.style.display = "flex";
+
+    item.classList.add("active-edit__mode");
+    editInput.setAttribute("value", text);
+
+    $btnUpdate.addEventListener("click", () => {
+      console.log("Click");
+      item.querySelector(".task").textContent = editInput.value;
+      item.classList.remove("active-edit__mode");
+      $btnEdit.style.display = "flex";
+      $btnUpdate.style.display = "none";
+    });
   }
 
   //Submit a newTask

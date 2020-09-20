@@ -108,13 +108,12 @@ ul {
   border-bottom: 1px solid var(--color-border-input);
   transition: 0.4s ease box-shadow;
 }
-.print-task-item.active {
-  box-shadow: 0 0 6px rgba(53, 53, 53, 0.5);
-}
 .print-task-item span {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   font-size: 14px;
+  max-width: 300px;
+  width: 100%;
 }
 .print-task-item span input[type="checkbox"] {
   margin-right: 6px;
@@ -169,6 +168,33 @@ ul {
 }
 #js_edit::before {
   content: "\f044";
+  color: #008000;
+}
+/*Edit mode*/
+.print-task-item.active-edit__mode {
+  box-shadow: 0 0 6px rgba(53, 53, 53, 0.5);
+}
+#js_input-edit {
+  display: none;
+}
+.print-task-item.active-edit__mode > span > span {
+  display: none;
+}
+.print-task-item.active-edit__mode #js_input-edit {
+  display: block;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+  outline: none;
+  transition: 0.4s ease box-shadow;
+  width: 90%;
+}
+.print-task-item.active-edit__mode #js_input-edit:focus {
+  box-shadow: 0 0 5px rgba(79, 120, 255, 0.8);
+}
+#js_update::before {
+  content: "\f2f1";
+  font-family: FontAwesome;
   color: #008000;
 }
 /*Responsive desing Desktop first*/
