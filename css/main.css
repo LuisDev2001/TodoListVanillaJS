@@ -159,28 +159,31 @@ ul {
 .message-task.active {
   display: block;
 }
-#js_delete::before,
-#js_edit::before {
+.js_delete::before,
+.js_edit_update::before {
   font-family: FontAwesome;
 }
-#js_delete::before {
+.js_delete::before {
   content: "\f2ed";
 }
-#js_edit::before {
+.js_edit_update::before {
   content: "\f044";
   color: #008000;
+}
+.js_edit_update.active::before {
+  content: "\f2f1";
 }
 /*Edit mode*/
 .print-task-item.active-edit__mode {
   box-shadow: 0 0 6px rgba(53, 53, 53, 0.5);
 }
-#js_input-edit {
+.input-edit {
   display: none;
 }
 .print-task-item.active-edit__mode > span > span {
   display: none;
 }
-.print-task-item.active-edit__mode #js_input-edit {
+.print-task-item.active-edit__mode .input-edit {
   display: block;
   padding: 5px;
   border-radius: 5px;
@@ -189,10 +192,14 @@ ul {
   transition: 0.4s ease box-shadow;
   width: 90%;
 }
-.print-task-item.active-edit__mode #js_input-edit:focus {
+.print-task-item.active-edit__mode .input-edit:focus {
   box-shadow: 0 0 5px rgba(79, 120, 255, 0.8);
 }
-#js_update::before {
+.buttons-actions .js_update.active {
+  cursor: pointer;
+  opacity: 1;
+}
+.buttons-actions .js_update::before {
   content: "\f2f1";
   font-family: FontAwesome;
   color: #008000;
