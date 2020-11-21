@@ -2,6 +2,7 @@
   console.log("JS CONNECT! :)");
   const $form = document.getElementById("js_form-task");
   const $containerTask = document.getElementById("js_container-task");
+  const $messageEmptyTask = document.getElementById("js_message-empty-task");
 
   /**
    * Function to print a new task
@@ -90,12 +91,55 @@
     }
   });
 
+  /**
+   * Function to get task for my own bd
+   */
+  const getTask = async () => {
+    const data = await fetch("./bd/bd.json");
+    const information = await data.json();
+    return information;
+  };
+
+  /**
+   * Function to print information in to my structure
+   */
+  const printInformationBd = (async () => {
+    const data = await getTask();
+    for (const d of data) {
+      $containerTask.innerHTML += `
+        <li class="print-task-item">
+          <span>
+            <input type="checkbox" />
+            <span class="task">${d.task}</span>
+            <input type="text" class="input-edit" />
+          </span>
+          <section class="buttons-actions">
+            <div class="js_delete"></div>
+            <div class="js_edit_update"></div>
+          </section>
+        </li>        
+      `;
+    }
+  })();
+
+  /*const postTask = (async () => {
+    const response = await fetch("./bd/bd.json", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: 3, task: "Prueba 3" }),
+    });
+    const data = await response.json();
+    console.log(data);
+  })();*/
+
   //Submit a newTask
-  $form.addEventListener("submit", (event) => {
+  $form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData($form);
     const inputTaskValue = data.get("text_Task");
-    const $messageEmptyTask = document.getElementById("js_message-empty-task");
     $messageEmptyTask.classList.remove("active");
     document.getElementById("input-task").value = "";
     /**
@@ -103,4 +147,11 @@
      */
     templateTask(inputTaskValue, $containerTask);
   });
+
+  if ($containerTask.querySelectorAll("li").length >= 0) {
+    //Remove class active to empty content
+    $messageEmptyTask.classList.remove("active");
+  } else if ($containerTask.querySelectorAll("li").length === 0) {
+    $messageEmptyTask.classList.add("active");
+  }
 })();
