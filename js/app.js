@@ -61,10 +61,12 @@
    * Event for put line-through in a text
    * @param {*} $checbox
    */
-  function taskEnded($checbox) {
-    const contetnCheckbox = $checbox.target.parentNode;
-    const task = contetnCheckbox.querySelector(".task");
-    task.classList.add("ended");
+  function taskEnded($checkbox) {
+    const contentCheckbox = $checkbox.target.parentNode;
+    const task = contentCheckbox.querySelector(".task");
+    const checkbox = contentCheckbox.querySelector("input[type='checkbox']");
+    checkbox.setAttribute("checked", true);
+    task.classList.toggle("ended");
   }
 
   $containerTask.addEventListener("click", (event) => {
@@ -91,7 +93,6 @@
   //Submit a newTask
   $form.addEventListener("submit", (event) => {
     event.preventDefault();
-    console.log(event);
     const data = new FormData($form);
     const inputTaskValue = data.get("text_Task");
     const $messageEmptyTask = document.getElementById("js_message-empty-task");
