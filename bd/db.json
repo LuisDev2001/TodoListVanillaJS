@@ -1,11 +1,13 @@
 {
-  "task": [
+  "response": [
     {
-      "taskText": "Esta es otra tarea de prueba 2",
+      "task": "Esta es otra tarea de prueba actualizada",
+      "state": true,
       "id": 1
     },
     {
-      "taskText": "Esta es otra tarea de prueba",
+      "task": "Suscribete es gratis",
+      "state": false,
       "id": 2
     }
   ]
