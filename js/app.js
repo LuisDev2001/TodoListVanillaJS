@@ -1,152 +1,226 @@
 (function load() {
-  console.log("JS CONNECT! :)");
-  const $form = document.getElementById("js_form-task");
-  const $containerTask = document.getElementById("js_container-task");
-  const $messageEmptyTask = document.getElementById("js_message-empty-task");
-  const URL_TASK = "http://localhost:3000/task";
+  console.log("JS CONNECT :)");
+  const $form = document.querySelector("#js_form-task");
+  const $emptyContainer = document.querySelector("#js_message-empty-task");
+  const $containerTask = document.querySelector("#js_container-task");
+  const URL_API = "http://localhost:3000/response";
 
   /**
-   * Action for delete a task
+   * Function to get information from to API
+   */
+  async function getTaskAPI() {
+    try {
+      const data = await fetch(URL_API);
+      const information = await data.json();
+      return information;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * Function to print Task from API
+   */
+  async function printTaskAPI() {
+    $emptyContainer.classList.remove("active");
+    const api_information = await getTaskAPI();
+    for (const d of api_information) {
+      console.log(d);
+      let state_validation = {
+        checked: "",
+        classEnded: "",
+      };
+
+      //Validate state
+      d.state
+        ? (state_validation = { checked: "checked", classEnded: "ended" })
+        : (state_validation = { checked: "", classEnded: "" });
+
+      $containerTask.innerHTML += `
+        <li class="print-task-item">
+          <span>
+            <input type="checkbox" ${state_validation.checked}/>
+            <span class="task ${state_validation.classEnded}">${d.task}</span>
+            <input type="text" class="input-edit" />
+            <input type="hidden" class="task-id" value="${d.id}"/>
+          </span>
+          <section class="buttons-actions">
+            <div class="js_delete"></div>
+            <div class="js_edit"></div>
+          </section>
+        </li>      
+      `;
+    }
+  }
+
+  /**
+   * Function to post task in my own API
+   * @param {*} task
+   */
+  async function postTask(task) {
+    try {
+      const setting = {
+        method: "POST",
+        body: JSON.stringify({
+          task: task,
+          state: false,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      };
+      const data = await fetch(URL_API, setting);
+      const information = await data.json();
+      return information;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * Function to delete task from my own API
+   * @param {*} taskId
+   */
+  async function deleteTaskAPI(taskId) {
+    try {
+      const data = await fetch(`${URL_API}/${taskId}`, {
+        method: "DELETE",
+      });
+      const information = data.json();
+      return information;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateTaskAPI(taskId, task, stateTask) {
+    try {
+      const setting = {
+        method: "PUT",
+        body: JSON.stringify({
+          task: task,
+          state: stateTask,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      };
+      const data = await fetch(`${URL_API}/${taskId}`, setting);
+      const information = await data.json();
+      return information;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  /**
+   * Function to print HTML in DOM
+   * @param {*} $container
+   * @param {*} task
+   */
+  function printTaskHtml($container, task) {
+    $container.innerHTML += `
+      <li class="print-task-item">
+        <span>
+          <input type="checkbox"/>
+          <span class="task">${task}</span>
+          <input type="text" class="input-edit" />
+        </span>
+        <section class="buttons-actions">
+          <div class="js_delete"></div>
+          <div class="js_edit"></div>
+        </section>
+      </li>
+    `;
+  }
+
+  /**
+   * Function to delete task
    * @param {*} $btnDelete
    */
   async function deleteTask($btnDelete) {
-    const btnContent = $btnDelete.target.parentNode;
-    const li = btnContent.parentNode;
-    const ul = li.parentNode;
+    const ul = $btnDelete.target.parentNode.parentNode.parentNode;
+    const li = $btnDelete.target.parentNode.parentNode;
+    const taskId = li.querySelector(".task-id").value;
+    console.log(taskId);
     ul.removeChild(li);
-    const task_id = li.querySelector("span > .hidden").id.split("_")[2];
-    deleteTaskBD(task_id);
+    await deleteTaskAPI(taskId);
   }
 
   /**
-   * Action for edit and Update Task
+   * Function to edit task
    * @param {*} $btnEdit
    */
-  function editAndUpdateTask($btnEdit) {
-    const btnContent = $btnEdit.target.parentNode;
-    const $btnEditUpdate = btnContent.querySelector(".js_edit_update");
-    const li = btnContent.parentNode;
-    const task = li.querySelector(".task");
-    //This is the old value
-    const oldValue = task.innerText.trim();
+  function editTask($btnEdit) {
+    const li = $btnEdit.target.parentNode.parentNode;
+    const btnUpdateActive = li.querySelector(".js_edit");
+    const textTaskSpan = li.querySelector(".task").innerText;
     const inputEdit = li.querySelector(".input-edit");
-    //Set attribute for save value
-    inputEdit.setAttribute("value", oldValue);
-    //Get new value for the input
-    const newValue = inputEdit.value;
-    //Replace new task in the span element
-    task.innerText = newValue;
-    li.classList.toggle("active-edit__mode");
-    $btnEditUpdate.classList.toggle("active");
+    inputEdit.value = textTaskSpan;
+    inputEdit.setAttribute("value", textTaskSpan);
+    btnUpdateActive.classList.add("update");
+    li.classList.add("active-edit__mode");
   }
 
   /**
-   * Event for put line-through in a text
+   * Function to update task
+   * @param {*} $btnUpdate
+   */
+  async function updateTask($btnUpdate) {
+    const li = $btnUpdate.target.parentNode.parentNode;
+    const btnUpdateActive = li.querySelector(".js_edit");
+    const textTaskSpan = li.querySelector(".task");
+    const inputEdit = li.querySelector(".input-edit");
+    const taskId = li.querySelector(".task-id").value;
+    const inputCheckbox = li.querySelector("input[type='checkbox']").checked;
+
+    textTaskSpan.textContent = inputEdit.value;
+    btnUpdateActive.classList.remove("update");
+    li.classList.remove("active-edit__mode");
+
+    await updateTaskAPI(taskId, textTaskSpan.textContent, inputCheckbox);
+  }
+
+  /**
+   * Function to check a task
    * @param {*} $checbox
    */
-  function taskEnded($checkbox) {
-    const contentCheckbox = $checkbox.target.parentNode;
-    const task = contentCheckbox.querySelector(".task");
-    const checkbox = contentCheckbox.querySelector("input[type='checkbox']");
-    checkbox.setAttribute("checked", true);
+  function checkedTask($checbox) {
+    const spanParent = $checbox.target.parentNode;
+    const task = spanParent.querySelector(".task");
+    const inputCheckbox = spanParent.querySelector("input[type='checkbox']");
+    inputCheckbox.setAttribute("checked", "");
     task.classList.toggle("ended");
   }
 
   /**
-   * Function to get task for my own bd
+   * Event for submit
    */
-  const getTasks = async () => {
-    const data = await fetch(URL_TASK);
-    const information = await data.json();
-    return information;
-  };
-  /**
-   * Function to print information in to my structure
-   */
-  (async function printInformationBd() {
-    const data = await getTasks();
-    for (const d of data) {
-      $containerTask.innerHTML += `
-        <li class="print-task-item">
-          <span>
-            <input type="checkbox" />
-            <span class="task">${d.taskText}</span>
-            <input type="text" class="input-edit" />
-            <span id="task_id_${d.id}" class="hidden"></span>
-          </span>
-          <section class="buttons-actions">
-            <div class="js_delete"></div>
-            <div class="js_edit_update"></div>
-          </section>
-        </li>        
-      `;
-    }
-  })();
-
-  function postTask(task) {
-    fetch(URL_TASK, {
-      method: "POST",
-      body: JSON.stringify({
-        taskText: task,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => {
-        response.json();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  function deleteTaskBD(task_id) {
-    fetch(`${URL_TASK}/${task_id}`, {
-      method: "DELETE",
-    }).then((response) => {
-      console.log(response);
-    });
-  }
-
-  //Submit a newTask
   $form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    //Start use FormData
     const data = new FormData($form);
-    const inputTaskValue = data.get("text_Task");
-    $messageEmptyTask.classList.remove("active");
-    document.getElementById("input-task").value = "";
-    /**
-     * When the form submit information print task in the list
-     */
-    postTask(inputTaskValue);
+    const taskText = data.get("text_Task");
+    document.querySelector("#input-task").value = "";
+    $emptyContainer.classList.remove("active");
+    printTaskHtml($containerTask, taskText);
+    await postTask(taskText);
   });
 
-  if ($containerTask.querySelectorAll("li").length >= 0) {
-    //Remove class active to empty content
-    $messageEmptyTask.classList.remove("active");
-  } else if ($containerTask.querySelectorAll("li").length === 0) {
-    $messageEmptyTask.classList.add("active");
-  }
-
   $containerTask.addEventListener("click", (event) => {
-    /**
-     * Event for delete, edit and update buttons a task
-     */
     if (event.target.className === "js_delete") {
-      console.log("Eliminar");
       deleteTask(event);
-    } else if (
-      event.target.className === "js_edit_update" ||
-      event.target.className === "js_edit_update active"
-    ) {
-      console.log("Editar and update");
-      editAndUpdateTask(event);
+    } else if (event.target.className === "js_edit") {
+      editTask(event);
+    } else if (event.target.className === "js_edit update") {
+      updateTask(event);
     } else if (event.target.type === "checkbox") {
-      console.log("Task ended");
-      taskEnded(event);
-    } else {
-      return false;
+      checkedTask(event);
     }
+  });
+
+  window.addEventListener("load", async () => {
+    console.log("TAREAS CARGADAS...");
+    await printTaskAPI();
   });
 })();
