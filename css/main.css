@@ -118,7 +118,8 @@ ul {
 .print-task-item .hidden {
   display: none !important;
 }
-.print-task-item .task.ended {
+.print-task-item .task.ended,
+.print-task-item input[checked="true"] {
   text-decoration: line-through;
 }
 .print-task-item span input[type="checkbox"] {
@@ -149,8 +150,7 @@ ul {
 .message-task {
   text-align: center;
   padding: 10px;
-  background: #f7f7f7;
-  border: 2px solid #f7f7f7;
+  background: #f9f9f9;
   display: none;
 }
 .message-task-icon {
@@ -166,17 +166,17 @@ ul {
   display: block;
 }
 .js_delete::before,
-.js_edit_update::before {
+.js_edit::before {
   font-family: FontAwesome;
 }
 .js_delete::before {
   content: "\f2ed";
 }
-.js_edit_update::before {
+.js_edit::before {
   content: "\f044";
   color: #008000;
 }
-.js_edit_update.active::before {
+.js_edit.update::before {
   content: "\f2f1";
 }
 /*Edit mode*/
